@@ -515,6 +515,7 @@ class _ProfilePageState extends State<ProfilePage>
                                                 ],
                                               ),
                                               onPressed: () {
+                                                if(avatar!="")
                                                 Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
@@ -933,7 +934,7 @@ class _ProfilePageState extends State<ProfilePage>
           ),
           Container(
             margin: EdgeInsets.only(left: 10.0, right: 10.0, top: 3.0),
-            height: friends.length / 3 < 1 ? 160 : 320,
+            height: friends.length / 3 < 1 ? 165 : 330,
             child: GridView(
               physics: new NeverScrollableScrollPhysics(),
               children: friends

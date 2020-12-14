@@ -141,9 +141,6 @@ class _CharacterListViewState extends State<CharacterListView>
                 },
                 firstPageProgressIndicatorBuilder: (_) => LoadingNewFeed(),
                 //newPageProgressIndicatorBuilder: (_) => NewPageProgressIndicator(),
-                noItemsFoundIndicatorBuilder: (_) => Center(
-                  child: Text(_pagingController.error),
-                ),
                 //noMoreItemsIndicatorBuilder: (_) => NoMoreItemsIndicator(),
               ),
             ),
@@ -237,6 +234,7 @@ class _CharacterListViewState extends State<CharacterListView>
       if (isLoading) {
         if (isLoading == true)
           return Container(
+            height: 60,
             margin: EdgeInsets.only(top: 8),
             color: kColorWhite,
             padding: EdgeInsets.symmetric(horizontal: 15),
@@ -267,6 +265,7 @@ class _CharacterListViewState extends State<CharacterListView>
         children: [
           if (isLoading == true)
             Container(
+              height: 60,
               margin: EdgeInsets.only(top: 8),
               color: kColorWhite,
               padding: EdgeInsets.symmetric(horizontal: 15),

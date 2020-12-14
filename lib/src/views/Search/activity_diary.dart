@@ -114,7 +114,7 @@ class _ActivityDiaryState extends State<ActivityDiary> {
                 child: Container(
                   height: 38,
                   decoration: BoxDecoration(
-                      border: Border.symmetric(horizontal: BorderSide())),
+                      border: Border.symmetric(horizontal: BorderSide(width: 0.2, color: kColorGrey))),
                   child: Center(
                     child: Text("Xóa các tìm kiếm"),
                   ),

@@ -42,7 +42,7 @@ class _FriendProfileState extends State<FriendProfile>
   String city = 'Hà Nội';
   String country = 'Việt Nam';
   String description = 'Description default';
-  String numberOfFriends = '1';
+  String numberOfFriends = '0';
   var requestedFriends = [];
   String isFriend = "Đang tải...";
   var friends = [];
@@ -511,7 +511,7 @@ class _FriendProfileState extends State<FriendProfile>
           ),
           Container(
             margin: EdgeInsets.only(left: 10.0, right: 10.0, top: 3.0),
-            height: friends.length / 3 < 1 ? 160 : 320,
+            height: friends.length / 3 < 1 ? 165 : 330,
             child: GridView(
               physics: new NeverScrollableScrollPhysics(),
               children: friends

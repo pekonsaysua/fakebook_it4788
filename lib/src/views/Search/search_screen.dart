@@ -37,12 +37,10 @@ class _SaveSearchState extends State<SearchPage>
     super.initState();
     _tabController = TabController(vsync: this, length: 3);
 
-    StorageUtil.getUsername().then((value) =>
-        setState(() {
+    StorageUtil.getUsername().then((value) => setState(() {
           username = value;
         }));
-    StorageUtil.getAvatar().then((value) =>
-        setState(() {
+    StorageUtil.getAvatar().then((value) => setState(() {
           avatar = value;
         }));
 
@@ -63,7 +61,7 @@ class _SaveSearchState extends State<SearchPage>
   Future<void> getSearch(
       {Function(List<dynamic>) onSuccess, Function(String) onError}) async {
     var response =
-    await FetchData.getSaveSearchApi(await StorageUtil.getToken(), 0, 10);
+        await FetchData.getSaveSearchApi(await StorageUtil.getToken(), 0, 10);
     if (response.statusCode == 200) {
       try {
         dynamic jsonRaw = json.decode(response.body);
@@ -129,7 +127,8 @@ class _SaveSearchState extends State<SearchPage>
                 suffixIcon: IconButton(
                   onPressed: () {
                     setState(() {
-                      savedSearchList.add(textController.text);
+                      savedSearchList
+                          .insert(0, {"keyword": textController.text});
                       textController.text = "";
                       is_searched = false;
                     });
@@ -158,29 +157,29 @@ class _SaveSearchState extends State<SearchPage>
           bottom: !is_searched
               ? null
               : TabBar(
-            indicatorColor: kColorBlue,
-            controller: _tabController,
-            unselectedLabelColor: kColorBlack,
-            labelColor: kColorBlue,
-            tabs: [
-              Tab(
-                text: "Tất cả",
-              ),
-              Tab(
-                text: "Bài viết",
-              ),
-              Tab(
-                text: "Mọi người",
-              ),
-            ],
-          ),
+                  indicatorColor: kColorBlue,
+                  controller: _tabController,
+                  unselectedLabelColor: kColorBlack,
+                  labelColor: kColorBlue,
+                  tabs: [
+                    Tab(
+                      text: "Tất cả",
+                    ),
+                    Tab(
+                      text: "Bài viết",
+                    ),
+                    Tab(
+                      text: "Mọi người",
+                    ),
+                  ],
+                ),
         ),
         body: is_searched
             ? TabBarView(controller: _tabController, children: [
-          ResultSearch(textController.text),
-          Container(),
-          Container()
-        ])
+                ResultSearch(textController.text),
+                ResultSearch(textController.text),
+                Container()
+              ])
             : buildSavedSearchBody(),
       ),
     );
@@ -189,104 +188,112 @@ class _SaveSearchState extends State<SearchPage>
   Widget buildSavedSearchBody() {
     return isLoading
         ? Center(
-      child: CircularProgressIndicator(),
-    )
+            child: CircularProgressIndicator(),
+          )
         : savedSearchList.isEmpty
-        ? Container(
-        margin: EdgeInsets.only(top: MediaQuery
-            .of(context)
-            .size
-            .height * 0.1, left: 30),
-        padding: EdgeInsets.symmetric(horizontal: 50),
-        child:
-        Column(
-          children: [
-            CircleAvatar(backgroundColor: Colors.indigo,
-              child: Icon(Icons.search, size: 80,),
-              radius: 48,),
-            SizedBox(height: 20,),
-            Text("Hãy nhập vài từ để tìm kiếm trong", style: TextStyle(fontWeight: FontWeight.w500),),
-            Text("FACEBOOK", style: TextStyle(fontWeight: FontWeight.w500)),
-          ],
-        ))
-        : Container(
-      decoration: BoxDecoration(
-        border:
-        Border(top: BorderSide(color: kColorGrey, width: 0.2)),
-      ),
-      child: RefreshIndicator(
-        onRefresh: () async {
-          await getSearch(onSuccess: (values) {
-            setState(() {
-              isLoading = false;
-              savedSearchList = values;
-            });
-          }, onError: (msg) {
-            setState(() => isLoading = false);
-            print(msg);
-          });
-        },
-        child: ListView(
-          physics: ScrollPhysics(),
-          shrinkWrap: true,
-          children: [
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              height: 45,
-              decoration: BoxDecoration(
-                border: Border(
-                    bottom:
-                    BorderSide(color: kColorGrey, width: 0.3)),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Mới đây",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  FlatButton(
-                      padding: EdgeInsets.symmetric(horizontal: 0),
-                      onPressed: () {
-                        Navigator.pushNamed(
-                            context, "activity_diary_screen");
-                      },
-                      child: Text("CHỈNH SỬA")),
-                ],
-              ),
-            ),
-            ListView.builder(
-                padding: EdgeInsets.only(top: 3),
-                physics: ScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: savedSearchList.length,
-                itemBuilder: (context, index) {
-                  String result = savedSearchList[index]['keyword'];
-                  return FlatButton(
-                    padding: EdgeInsets.all(0),
-                    onPressed: () {
-                      setState(() {
-                        textController.text = result;
-                        is_searched = true;
-                      });
-                    },
-                    child: ListTile(
-                      leading: Icon(Icons.search),
-                      title: Text(result),
-                      trailing: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              savedSearchList.removeAt(index);
-                            });
-                          },
-                          icon: Icon(Icons.close)),
+            ? Container(
+                margin: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height * 0.1, left: 30),
+                padding: EdgeInsets.symmetric(horizontal: 50),
+                child: Column(
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: Colors.indigo,
+                      child: Icon(
+                        Icons.search,
+                        size: 80,
+                      ),
+                      radius: 48,
                     ),
-                  );
-                }),
-          ],
-        ),
-      ),
-    );
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      "Hãy nhập vài từ để tìm kiếm trong",
+                      style: TextStyle(fontWeight: FontWeight.w500),
+                    ),
+                    Text("FACEBOOK",
+                        style: TextStyle(fontWeight: FontWeight.w500)),
+                  ],
+                ))
+            : Container(
+                decoration: BoxDecoration(
+                  border:
+                      Border(top: BorderSide(color: kColorGrey, width: 0.2)),
+                ),
+                child: RefreshIndicator(
+                  onRefresh: () async {
+                    await getSearch(onSuccess: (values) {
+                      setState(() {
+                        isLoading = false;
+                        savedSearchList = values;
+                      });
+                    }, onError: (msg) {
+                      setState(() => isLoading = false);
+                      print(msg);
+                    });
+                  },
+                  child: ListView(
+                    physics: ScrollPhysics(),
+                    shrinkWrap: true,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        height: 45,
+                        decoration: BoxDecoration(
+                          border: Border(
+                              bottom:
+                                  BorderSide(color: kColorGrey, width: 0.3)),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Mới đây",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            FlatButton(
+                                padding: EdgeInsets.symmetric(horizontal: 0),
+                                onPressed: () {
+                                  Navigator.pushNamed(
+                                      context, "activity_diary_screen");
+                                },
+                                child: Text("CHỈNH SỬA")),
+                          ],
+                        ),
+                      ),
+                      ListView.builder(
+                          padding: EdgeInsets.only(top: 3),
+                          physics: ScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: savedSearchList.length,
+                          itemBuilder: (context, index) {
+                            String result = savedSearchList[index]['keyword'];
+                            return FlatButton(
+                              padding: EdgeInsets.all(0),
+                              onPressed: () {
+                                setState(() {
+                                  textController.text = result;
+                                  is_searched = true;
+                                });
+                              },
+                              child: ListTile(
+                                leading: Icon(Icons.search),
+                                title: Text(result),
+                                trailing: IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        savedSearchList.removeAt(index);
+                                      });
+                                    },
+                                    icon: Icon(Icons.close)),
+                              ),
+                            );
+                          }),
+                    ],
+                  ),
+                ),
+              );
   }
 
   @override
@@ -324,12 +331,10 @@ class _ResultSearchState extends State<ResultSearch>
   void initState() {
     // TODO: implement initState
     super.initState();
-    StorageUtil.getUsername().then((value) =>
-        setState(() {
+    StorageUtil.getUsername().then((value) => setState(() {
           username = value;
         }));
-    StorageUtil.getAvatar().then((value) =>
-        setState(() {
+    StorageUtil.getAvatar().then((value) => setState(() {
           avatar = value;
         }));
 
@@ -364,7 +369,7 @@ class _ResultSearchState extends State<ResultSearch>
     List<PostModel> list = List();
     try {
       await FetchData.searchApi(await StorageUtil.getToken(), widget.searchText,
-          await StorageUtil.getUid(), 0, 10)
+              await StorageUtil.getUid(), 0, 10)
           .then((value) {
         if (value.statusCode == 200) {
           var val = jsonDecode(value.body);
@@ -395,21 +400,32 @@ class _ResultSearchState extends State<ResultSearch>
       child: isLoading
           ? LoadingNewFeed()
           : listPostModel.length == 0
-          ? Center(
-        child: Text("empty"),
-      )
-          : ListView.builder(
-          padding: EdgeInsets.only(top: 3),
-          physics: ScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: listPostModel.length,
-          itemBuilder: (context, index) {
-            return PostWidget(
-              post: listPostModel[index],
-              controller: new PostController(),
-              username: username,
-            );
-          }),
+              ? Container(
+                  padding: EdgeInsets.only(top: 100),
+                  child: Column(
+                    children: [
+                      Icon(
+                        Icons.search,
+                        size: 100,
+                        color: Colors.grey[100],
+                      ),
+                      Text("Rất tiếc, chúng tôi không tìm thấy kết"),
+                      Text("quả nào phù hợp"),
+                    ],
+                  ),
+                )
+              : ListView.builder(
+                  padding: EdgeInsets.only(top: 3),
+                  physics: ScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: listPostModel.length,
+                  itemBuilder: (context, index) {
+                    return PostWidget(
+                      post: listPostModel[index],
+                      controller: new PostController(),
+                      username: username,
+                    );
+                  }),
     );
   }
 

@@ -137,9 +137,7 @@ class _NotificationsTabState extends State<NotificationsTab>
                 },
                 firstPageProgressIndicatorBuilder: (_) => LoadingNewFeed(),
                 //newPageProgressIndicatorBuilder: (_) => NewPageProgressIndicator(),
-                noItemsFoundIndicatorBuilder: (_) => Center(
-                  child: Text(_pagingController.error),
-                ),
+                //noItemsFoundIndicatorBuilder: (_) =>
                 //noMoreItemsIndicatorBuilder: (_) => NoMoreItemsIndicator(),
               ),
             ),

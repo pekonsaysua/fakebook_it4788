@@ -115,9 +115,16 @@ class _CommentWidgetState extends State<CommentWidget>
                 children: [
                   if (widget.post.like != "0") bottomSheetHeader(),
                   Expanded(
-                    child: Center(
-                      child: Text(
-                          "Chưa có bình luận nào, hãy là người đầu tiên bình luận"),
+                    child: Container(
+                      padding: EdgeInsets.only(top: 100),
+                      child: Column(
+                        children: [
+                          Icon(Icons.mode_comment, size: 150, color: Colors.grey[200],),
+                          Text(
+                              "Chưa có bình luận nào", style: TextStyle(fontWeight: FontWeight.w900, fontSize: 20, color: kColorGrey),),
+                          Text("Hãy là người đầu tiên bình luận"),
+                        ],
+                      ),
                     ),
                   ),
                   bottomSheetFooter(),

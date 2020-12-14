@@ -20,7 +20,7 @@ class _SingleImageViewState extends State<SingleImageView> {
       builder: (BuildContext context, int index) {
         return PhotoViewGalleryPageOptions(
           imageProvider: widget.url == null
-              ? AssetImage("assets/top_background.jpg")
+              ? AssetImage("assets/avatar.jpg")
               : NetworkImage(widget.url),
           heroAttributes: PhotoViewHeroAttributes(tag: "Anh dai dien"),
           minScale: PhotoViewComputedScale.contained * 0.9,
