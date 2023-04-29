@@ -62,7 +62,7 @@ class _SignupPageState extends State<SignupPage> {
     //String dataReturn = ModalRoute.of(context).settings.arguments??"";
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      resizeToAvoidBottomPadding: false,
+      //resizeToAvoidBottomPadding: false,
       appBar: AppBar(
         leading: IconButton(
           color: kColorBlack,

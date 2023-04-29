@@ -17,7 +17,7 @@ class SignupController {
   }
 
   Future<String> onSubmitSignup({
-    @required UserModel user,
+    final UserModel user,
   }) async {
     String result = '';
     error = "";

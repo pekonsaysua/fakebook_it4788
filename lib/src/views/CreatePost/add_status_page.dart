@@ -123,7 +123,7 @@ class _StatusPageState extends State<StatusPage> with TickerProviderStateMixin {
             showDialog(
                 barrierDismissible: false,
                 context: context,
-                child: new CupertinoAlertDialog(
+                builder: (_) => CupertinoAlertDialog(
                   title: new Column(
                     children: <Widget>[
                       new Text("ListView"),

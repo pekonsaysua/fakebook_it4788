@@ -109,7 +109,7 @@ class _CommentWidgetState extends State<CommentWidget>
       bottom: true,
       child: Scaffold(
         resizeToAvoidBottomInset: true,
-        resizeToAvoidBottomPadding: true,
+        //resizeToAvoidBottomPadding: true,
         body: widget.post.comment == "0"
             ? Column(
                 children: [

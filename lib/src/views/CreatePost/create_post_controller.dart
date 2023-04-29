@@ -21,13 +21,13 @@ class CreatePostController {
   String error;
 
   Future<PostModel> onSubmitCreatePost(
-      {@required List<MultipartFile> images,
-      @required MultipartFile video,
-      @required String described,
-      @required String status,
-      @required String state,
-      @required bool can_edit,
-      @required String asset_type}) async {
+      {final List<MultipartFile> images,
+      final MultipartFile video,
+      final String described,
+      final String status,
+      final String state,
+      final bool can_edit,
+      final String asset_type}) async {
     PostModel post;
     try {
       await ApiService.createPost(await StorageUtil.getToken(), images, video,
